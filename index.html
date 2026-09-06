@@ -270,15 +270,11 @@
   .event-card.wedding .event-meta div,
   .event-card.cocktail .event-meta div,
   .event-card.engagement .event-meta div{ color:#fff8e7; opacity:1; text-shadow:0 1px 4px rgba(55,25,20,.55); }
-  .event-card.haldi .event-meta,
-  .event-card.wedding .event-meta,
-  .event-card.cocktail .event-meta,
-  .event-card.engagement .event-meta{ border-top-color:rgba(255,248,231,.45); }
   .event-card.haldi .event-meta .k,
   .event-card.wedding .event-meta .k,
   .event-card.cocktail .event-meta .k,
   .event-card.engagement .event-meta .k{ color:#f5d58a; }
-  .event-card h3{ font-size:clamp(1.5rem, 2.5vw, 1.8rem); color:var(--rose); margin:8px 0 6px; font-weight:600; }
+    .event-meta{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,.8fr) minmax(0,1.4fr); gap:12px; align-items:start; padding-top:16px; }
   .event-subheading{ font-size:1.08rem; color:var(--rose-deep); margin:-2px 0 8px; font-weight:600; }
   .event-card.wedding .event-subheading{ color:#f5d58a; text-shadow:0 1px 4px rgba(55,25,20,.55); }
   .event-city{ display:block; margin-top:3px; font-size:.78rem; color:var(--ink); opacity:.75; }
@@ -287,7 +283,7 @@
   .event-card.cocktail .event-city,
   .event-card.engagement .event-city{ color:#fff8e7; opacity:.9; text-shadow:0 1px 4px rgba(55,25,20,.55); }
   .event-card .tagline{ font-size:clamp(1rem, 1.8vw, 1.12rem); opacity:.75; margin-bottom:18px; min-height:50px; }
-  .event-meta{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,.8fr) minmax(0,1.4fr); gap:12px; align-items:start; border-top:1px solid rgba(181,56,77,.15); padding-top:16px; }
+  .event-meta{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,.8fr) minmax(0,1.4fr); gap:12px; align-items:start; padding-top:16px; }
   .event-meta div{ min-width:0; font-size:clamp(.88rem, 1.5vw, 1rem); line-height:1.35; }
   .event-meta .k{ letter-spacing:2px; color:var(--gold); font-weight:600; display:block; margin-bottom:4px; font-size:clamp(.72rem, 1.2vw, .8rem);}
   .event-meta a.k{ letter-spacing:0; color:inherit; font-weight:400; font-size:inherit; margin:0; }
@@ -354,12 +350,12 @@
     <div class="envelope" id="envelope">
       <div class="env-body"></div>
       <div class="env-flap"></div>
-      <div class="seal">N&S</div>
+      <div class="seal">S&P</div>
     </div>
   </div>
   <div class="cover-text">
     <h1 class="script">You're Invited</h1>
-    <p>Tap the envelope to open your invitation</p>
+    <h2>Tap the envelope to open your invitation</h2>
   </div>
 </div>
 
@@ -451,7 +447,7 @@
         <div class="event-meta">
           <div><span class="k">DATE</span>WED · Dec 2, 2026</div>
           <div><span class="k">TIME</span>10:00 AM</div>
-          <div><span class="k">VENUE 📍</span><a class="k" href="https://www.google.com/maps/dir//Vedas+Premium+Luxury+Banquet,+Toph+Sherkhanian,+Jammu,+Jammu+and+Kashmir+181121/@28.6130176,77.0998272,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x391e844e77a3ae89:0xcbe4e381fdf8e5ec!2m2!1d74.8334813!2d32.7444632?entry=ttu&g_ep=EgoyMDI2MDkwMi4wIKXMDSoASAFQAw%3D%3D" target="_blank">Vedas, Aknoor Road, Jammu</a></div>
+          <div><span class="k">VENUE 📍</span><a class="k" href="https://www.google.com/maps/dir//Vedas+Premium+Luxury+Banquet,+Toph+Sherkhanian,+Jammu,+Jammu+and+Kashmir+181121/@28.6130176,77.0998272,12z/data=!4m8!4m7!1m0!1m5!1s0x391e844e77a3ae89:0xcbe4e381fdf8e5ec!2m2!1d74.8334813!2d32.7444632?entry=ttu&g_ep=EgoyMDI2MDkwMi4wIKXMDSoASAFQAw%3D%3D" target="_blank">Vedas, Aknoor Road, Jammu</a></div>
         </div>
       </div>
     </div>
