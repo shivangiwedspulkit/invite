@@ -261,7 +261,7 @@
   .event-card.haldi h3,
   .event-card.wedding h3,
   .event-card.cocktail h3,
-  .event-card.engagement h3{ color:#fff8e7; text-shadow:0 2px 5px rgba(55,25,20,.55); }
+  .event-card.engagement h3{ color:#ff3f5f; font-weight:700; text-shadow:0 2px 5px rgba(55,25,20,.9); }
   .event-card.haldi .tagline,
   .event-card.wedding .tagline,
   .event-card.cocktail .tagline,
@@ -329,16 +329,11 @@
   }
 
   @media (max-width:480px){
-    #invocation{
-      justify-content:flex-start;
-      padding-top:70px;
-      padding-bottom:48px;
-    }
-    #invocation .blessing{ line-height:1.35; margin-bottom:8px; }
-    .names{ margin-top:24px; }
-    .names .name{ font-size:3.4rem; }
-    .names .name{ line-height:1.05; }
-    .lineage{ line-height:1.3; }
+    #invocation .blessing{ font-size:1rem; line-height:1.3; }
+    #invocation .names{ margin:12px 0; }
+    #invocation .names .name{ font-size:2.8rem; line-height:1; }
+    #invocation .names .with{ font-size:1rem; margin:2px 0; }
+    #invocation .lineage{ font-size:.85rem; line-height:1.2; }
     .timer .num{ width:58px; height:58px; font-size:1.7rem; }
     .timer{ gap:10px; }
     .event-meta{ grid-template-columns:minmax(0,1fr) minmax(0,.75fr) minmax(0,1.35fr); gap:8px; }
