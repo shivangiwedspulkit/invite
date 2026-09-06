@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shivangi & Pulkit - Wedding Invitation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blush:#fdeef1;
+    --blush-deep:#f7d9e0;
+    --cream:#fbf4e8;
+    --rose:#b5384d;
+    --rose-deep:#8f2438;
+    --gold:#c9a86a;
+    --ink:#5a4a48;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Cormorant Garamond', serif;
+    background:var(--cream);
+    color:var(--ink);
+    overflow-x:hidden;
+  }
+  body.locked{overflow:hidden; height:100vh;}
+
+  .script{font-family:'Great Vibes', cursive;}
+  .display{font-family:'Playfair Display', serif;}
+
+  /* ---------- floating petals ---------- */
+  #petals{
+    position:fixed; inset:0; pointer-events:none; z-index:5; overflow:hidden;
+  }
+  .petal{
+    position:absolute; top:-5%; font-size:22px; opacity:.85;
+    animation-name:drift; animation-timing-function:linear; animation-iteration-count:infinite;
+    filter:drop-shadow(0 2px 4px rgba(0,0,0,.06));
+  }
+  @keyframes drift{
+    0%{ transform:translateY(0) translateX(0) rotate(0deg); }
+    50%{ transform:translateY(50vh) translateX(20px) rotate(180deg); }
+    100%{ transform:translateY(110vh) translateX(-15px) rotate(360deg); }
+  }
+
+  /* ---------- cover / envelope ---------- */
+  #cover{
+    position:fixed; inset:0; z-index:20;
+    background:radial-gradient(ellipse at center, var(--blush) 0%, var(--blush-deep) 100%);
+    display:flex; align-items:center; justify-content:center; flex-direction:column; gap:28px;
+    transition:opacity 1s ease, visibility 1s ease;
+  }
+  #cover.hidden{opacity:0; visibility:hidden; pointer-events:none;}
+
+  .envelope-wrap{
+    perspective:1400px;
+  }
+  .envelope{
+    position:relative; width:260px; height:180px; cursor:pointer;
+    filter:drop-shadow(0 18px 30px rgba(140,60,80,.28));
+  }
+  .env-body{
+    position:absolute; inset:0; background:linear-gradient(160deg,#f4c8d3,#e9a8b8);
+    border-radius:4px;
+    background-image:
+      radial-gradient(circle at 30% 30%, rgba(255,255,255,.35), transparent 40%),
+      linear-gradient(160deg,#f4c8d3,#e9a8b8);
+  }
+  .env-flap{
+    position:absolute; top:0; left:0; width:100%; height:100%;
+    clip-path:polygon(0 0, 100% 0, 50% 58%);
+    background:linear-gradient(200deg,#f7d5df,#eab3c1);
+    transform-origin:top center; transition:transform 1s cubic-bezier(.6,.1,.3,1);
+    z-index:3;
+  }
+  .env-flap::after{
+    content:"❀"; position:absolute; left:50%; top:14%; transform:translateX(-50%);
+    color:rgba(255,255,255,.55); font-size:22px;
+  }
+  .seal{
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:56px; height:56px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #f3e2ba, var(--gold));
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Great Vibes', cursive; color:var(--rose-deep); font-size:22px;
+    z-index:4; box-shadow:0 4px 10px rgba(0,0,0,.25);
+  }
+  .envelope.open .env-flap{ transform:rotateX(180deg); }
+  .envelope.open{ animation:env-away .9s ease .55s forwards; }
+  @keyframes env-away{
+    to{ transform:translateY(-30px) scale(.85); opacity:0; }
+  }
+
+  .cover-text{ text-align:center; color:var(--rose-deep); }
+  .cover-text h1{ font-size:2.4rem; font-weight:400; letter-spacing:1px; }
+  .cover-text p{ margin-top:10px; font-size:1.05rem; letter-spacing:.5px; opacity:.75; }
+
+  /* ---------- main content ---------- */
+  main{ position:relative; z-index:1; }
+  section{
+    min-height:100vh; width:100%;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:80px 20px; position:relative;
+  }
+  .divider{ font-size:1.4rem; color:var(--gold); margin:18px 0; }
+  .reveal{ opacity:0; transform:translateY(30px); transition:opacity 1s ease, transform 1s ease; }
+  .reveal.visible{ opacity:1; transform:translateY(0); }
+
+  /* invocation */
+  #invocation{
+    background:var(--blush);
+    background-image:url('Slide.jpg');
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+  }
+  .blessing{ max-width:640px; font-size:1.20rem; line-height:1.9; color:var(--ink); }
+  .parents{ font-size:1.3rem; margin:14px 0; color:var(--rose-deep); font-weight:600; }
+  .names{ margin:30px 0; }
+  .names .name{ font-size:5rem; color:var(--rose); line-height:1; }
+  .names .with{ font-size:1.4rem; color:var(--ink); margin:6px 0; }
+  .lineage{ font-size:1.05rem; color:var(--ink); opacity:.8; max-width:520px; }
+
+  /* countdown / scratch */
+  #countdown{ background:var(--cream); }
+  .eyebrow{ letter-spacing:4px; color:var(--gold); font-size:.95rem; font-weight:600; }
+  .scratch-card{
+    position:relative; width:320px; max-width:86vw; height:190px; margin:26px auto 40px;
+    border-radius:14px; overflow:hidden; box-shadow:0 12px 30px rgba(140,60,80,.18);
+    background:var(--blush);
+  }
+  .scratch-content{
+    position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px;
+    background:linear-gradient(160deg,#fff7f2,#fbe4ea);
+  }
+  .scratch-content .date{ font-size:1.7rem; color:var(--rose-deep); font-weight:600; }
+  .scratch-canvas{ position:absolute; inset:0; z-index:2; cursor:grab; touch-action:none; user-select:none; display:block; width:100%; height:100%; }
+  .scratch-canvas.done{ opacity:0; transition:opacity .8s ease; pointer-events:none; }
+  .scratch-hint{
+    position:absolute; bottom:10px; left:50%; transform:translateX(-50%); z-index:3;
+    font-size:.8rem; letter-spacing:2px; color:var(--rose-deep);
+    pointer-events:none; opacity:.7; transition:opacity .8s ease; user-select:none;
+    background:linear-gradient(160deg,#fff7f2,#fbe4ea);
+    padding:8px 18px; border-radius:20px; white-space:nowrap;
+    box-shadow:0 4px 10px rgba(140,60,80,.15);
+  }
+  .scratch-hint.done{ opacity:0; }
+
+  .timer{ display:flex; gap:18px; }
+  .timer .box{ display:flex; flex-direction:column; align-items:center; }
+  .timer .num{ font-family:'Playfair Display', serif; font-size:2.4rem; color:var(--rose-deep); background:var(--blush); width:74px; height:74px; border-radius:10px; display:flex; align-items:center; justify-content:center; }
+  .timer .label{ font-size:.75rem; letter-spacing:2px; margin-top:8px; opacity:.7; }
+  .scratch-reveal-target{
+    opacity:0;
+    transform:translateY(16px);
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity .7s ease, transform .7s ease, visibility .7s ease;
+  }
+  .scratch-reveal-target.visible{
+    opacity:1;
+    transform:translateY(0);
+    visibility:visible;
+    pointer-events:auto;
+  }
+
+  /* events */
+  #events{ background:var(--blush); }
+  .section-title{ font-size:2.2rem; color:var(--rose-deep); font-weight:600; margin-bottom:8px; }
+  .events-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:26px; max-width:1000px; margin-top:36px; width:100%; }
+  .event-card{
+    background:var(--cream); border-radius:16px; padding:32px 24px; box-shadow:0 10px 26px rgba(140,60,80,.12);
+  }
+  /* Haldi event background */
+  .event-card.haldi{
+    position:relative;
+    background-image: url('devgon.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #fff;
+    box-shadow: 0 10px 26px rgba(0,0,0,.18);
+  }
+  .event-card.haldi::before{
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(rgba(0,0,0,0.18), rgba(0,0,0,0.18));
+    border-radius: 16px;
+    z-index: 0;
+  }
+
+    .event-card.wedding{
+    position:relative;
+    background-image: url('wedding.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #fff;
+    box-shadow: 0 10px 26px rgba(0,0,0,.18);
+  }
+  .event-card.wedding::before{
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(rgba(0,0,0,0.18), rgba(0,0,0,0.18));
+    border-radius: 16px;
+    z-index: 0;
+  }
+
+    .event-card.cocktail{
+    position:relative;
+    background-image: url('Cocktail.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #fff;
+    box-shadow: 0 10px 26px rgba(0,0,0,.18);
+  }
+  .event-card.cocktail::before{
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(rgba(0,0,0,0.18), rgba(0,0,0,0.18));
+    border-radius: 16px;
+    z-index: 0;
+  }
+
+    .event-card.engagement{
+    position:relative;
+    background-image: url('Engagement.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #fff;
+    box-shadow: 0 10px 26px rgba(0,0,0,.18);
+  }
+  .event-card.engagement::before{
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(rgba(0,0,0,0.18), rgba(0,0,0,0.18));
+    border-radius: 16px;
+    z-index: 0;
+  }
+  .event-card.wedding *{ position:relative; z-index:1; }
+    .event-card.engagement *{ position:relative; z-index:1; }
+  .event-card.cocktail *{ position:relative; z-index:1; }
+  .event-card.haldi *{ position:relative; z-index:1; }
+  .event-card h3{ font-size:1.5rem; color:var(--rose); margin:8px 0 6px; font-weight:600; }
+  .event-card .tagline{ font-size:.98rem; opacity:.75; margin-bottom:18px; min-height:44px; }
+  .event-meta{ display:flex; justify-content:space-around; border-top:1px solid rgba(181,56,77,.15); padding-top:16px; }
+  .event-meta div{ font-size:.85rem; }
+  .event-meta .k{ letter-spacing:2px; color:var(--gold); font-weight:600; display:block; margin-bottom:4px; font-size:.7rem;}
+
+  /* message */
+  #message{ background:var(--cream); }
+  #message p{ max-width:520px; font-size:1.2rem; line-height:1.9; }
+
+  /* families */
+  #families{ background:var(--blush); }
+  .families-grid{ display:flex; gap:60px; flex-wrap:wrap; justify-content:center; margin-top:30px; }
+  .family h4{ color:var(--rose-deep); font-size:1.3rem; margin-bottom:10px; font-weight:600; }
+  .family p{ font-size:1.05rem; opacity:.85; }
+
+  /* venue */
+  #venue{ background:var(--cream); }
+  #venue h3{ font-size:2rem; color:var(--rose); margin:10px 0 4px; }
+  #venue p{ opacity:.8; margin-bottom:24px; }
+  .btn{
+    display:inline-block; padding:14px 34px; border-radius:30px; background:var(--rose);
+    color:#fff; text-decoration:none; letter-spacing:1px; font-size:.95rem; transition:background .3s ease, transform .3s ease;
+  }
+  .btn:hover{ background:var(--rose-deep); transform:translateY(-2px); }
+
+  footer{
+    background:var(--rose-deep); color:#f7e3e8; text-align:center; padding:60px 20px 40px;
+  }
+  footer .script{ font-size:2.6rem; }
+  footer .hashtag{ margin-top:14px; letter-spacing:1px; opacity:.85; }
+  footer .credit{ margin-top:10px; font-size:0.95rem; opacity:0.75; letter-spacing:0.8px; }
+  footer .credit{
+    margin-top: 10px;
+    font-size: 0.9rem;
+    opacity: 0.75;
+    letter-spacing: 0.8px;
+  }
+
+  /* music toggle */
+  #music-toggle{
+    position:fixed; bottom:22px; right:22px; z-index:30; width:48px; height:48px; border-radius:50%;
+    background:var(--rose); color:#fff; border:none; cursor:pointer; font-size:1.2rem;
+    box-shadow:0 6px 16px rgba(140,60,80,.35);
+  }
+
+  @media (max-width:480px){
+    .names .name{ font-size:3.4rem; }
+    .timer .num{ width:58px; height:58px; font-size:1.7rem; }
+    .timer{ gap:10px; }
+  }
+  
+</style>
+</head>
+<body class="locked">
+
+<div id="petals"></div>
+
+<!-- Cover / Envelope -->
+<div id="cover">
+  <div class="envelope-wrap">
+    <div class="envelope" id="envelope">
+      <div class="env-body"></div>
+      <div class="env-flap"></div>
+      <div class="seal">N&S</div>
+    </div>
+  </div>
+  <div class="cover-text">
+    <h1 class="script" style="font-size:3rem;">You're Invited</h1>
+    <p>Tap the envelope to open your invitation</p>
+  </div>
+</div>
+
+<main>
+  <section id="invocation" style="background-image: url('Slide_fin.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+    <p class="blessing reveal">Late Smt. Radhika Rani Kaul & Late Shri Rugh Nath Kaul</p>
+    <p class="blessing reveal">Late Smt. Shyama Rani Bhan & Late Shri Dina Nath Bhan</p>
+    <p class="blessing reveal">request the honour of your presence at the wedding ceremony of his beloved granddaughter</p>
+
+    <div class="names">
+      <div class="name script reveal">Shivangi</div>
+      <p class="lineage reveal">Mrs. Sunita Kaul & Mr. Kuldeep Kumar Kaul</p>
+      <div class="with script reveal">with</div>
+      <div class="name script reveal">Pulkit</div>
+    <p class="lineage reveal">Mrs. Reeta Bakaya & Ramesh Bakaya</p>
+
+    </div>
+  </section>
+
+  <section id="countdown" style="background-image: url('https://raw.githubusercontent.com/SaarthakGotHisNoor/invite/refs/heads/main/Lotus.jpeg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+    <p class="eyebrow reveal" style="color: darkred;" >SAVE THE DATE</p>
+    <div class="scratch-card reveal">
+      <div class="scratch-content">
+        <span style="letter-spacing:2px; font-size:.8rem; color:var(--gold);">THE WEDDING</span>
+        <span class="date"> 2nd December 2026</span>
+      </div>
+      <canvas class="scratch-canvas" id="scratchCanvas"></canvas>
+      <div class="scratch-hint">✦ SCRATCH TO REVEAL ✦</div>
+    </div>
+
+    <div class="timer scratch-reveal-target" id="timerSection">
+      <div class="box"><span class="num" id="t-days">00</span><span class="label">DAYS</span></div>
+      <div class="box"><span class="num" id="t-hours">00</span><span class="label">HOURS</span></div>
+      <div class="box"><span class="num" id="t-mins">00</span><span class="label">MINUTES</span></div>
+      <div class="box"><span class="num" id="t-secs">00</span><span class="label">SECONDS</span></div>
+    </div>
+  </section>
+
+  <section id="events">
+    <p class="eyebrow reveal">❀</p>
+    <h2 class="section-title reveal">Events Schedule</h2>
+    <div class="events-grid">
+      <div class="event-card reveal cocktail" >
+        <div class="divider"></div>
+        <h3>Masmuchrum Saath Manz</h3>
+        <p class="tagline">An evening of henna, music and dance</p>
+        <div class="event-meta">
+          <div><span class="k">DATE</span>SUN · Nov 29, 2026</div>
+          <div><span class="k">TIME</span>11:00 AM</div>
+          <div><span class="k">VENUE 📍</span><a class="k" href="https://www.google.com/maps/search/?api=1&query=The%20Kangra%20Fort%20Bantalab%20Road%2C%20Barnai%2C%20Saraswati%20Vihar%2C%20Jammu%2C%20Jammu%20and%20Kashmir%20181205" target="_blank">Haveli, The Kangra Fort</a></div>
+          <!-- <div><span class="k">Theme</span>Garden Lawn</div> -->
+        </div>
+      </div>
+      <div class="event-card reveal engagement">
+        <div class="divider"></div>
+        <h3>Mehandiraat</h3>
+        <p class="tagline">Turning golden with their forever</p>
+        <div class="event-meta">
+          <div><span class="k">DATE</span>SUN · Nov 29, 2026</div>
+          <div><span class="k">TIME</span>07:00 PM</div>
+          <div><span class="k">VENUE 📍</span><a class="k" href="https://www.google.com/maps/search/?api=1&query=The%20Kangra%20Fort%20Bantalab%20Road%2C%20Barnai%2C%20Saraswati%20Vihar%2C%20Jammu%2C%20Jammu%20and%20Kashmir%20181205" target="_blank">Diwan-e-Khaas, The Kangra Fort</a></div>
+        </div>
+      </div>
+      <!-- <div class="event-card reveal haldi">
+        <div class="divider"></div>
+        <h3>The Midnight Dance Soiree</h3>
+        <p class="tagline">An elegant evening to celebrate their union</p>
+        <div class="event-meta">
+          <div><span class="k">DATE</span>FRI · Aug 21, 2026</div>
+          <div><span class="k">TIME</span>07:00 PM</div>
+       
+        </div>
+      </div> -->
+      <div class="event-card reveal haldi">
+        <div class="divider"></div>
+        <h3>Devgon</h3>
+        <p class="tagline">The sacred seven vows around the holy fire</p>
+        <div class="event-meta">
+          <div><span class="k">DATE</span>MON · Nov 30, 2026</div>
+          <div><span class="k">TIME</span>07:00 PM</div>
+          <div><span class="k">VENUE 📍</span><a class="k" href="https://www.google.com/maps/search/?api=1&query=The%20Kangra%20Fort%20Bantalab%20Road%2C%20Barnai%2C%20Saraswati%20Vihar%2C%20Jammu%2C%20Jammu%20and%20Kashmir%20181205" target="_blank">Kangra-Legacy, The Kangra Fort</a></div>
+        </div>
+      </div>
+      <div class="event-card reveal wedding">
+        <div class="divider"></div>
+        <h3>Wedding Ceremony</h3>
+        <p class="tagline">An elegant evening to celebrate their union</p>
+        <div class="event-meta">
+          <div><span class="k">DATE</span>WED · Dec 2, 2026</div>
+          <div><span class="k">TIME</span>10:00 AM</div>
+          <div><span class="k">VENUE 📍</span><a class="k" href="https://www.google.com/maps/search/?api=1&query=The%20Kangra%20Fort%20Bantalab%20Road%2C%20Barnai%2C%20Saraswati%20Vihar%2C%20Jammu%2C%20Jammu%20and%20Kashmir%20181205" target="_blank">Kangra-Legacy, The Kangra Fort</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="message" style="background-image: url('4th.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;" >
+    <p class="eyebrow reveal">❀</p>
+    <h2 class="section-title reveal">Awaiting Your Heartly Presence</h2>
+    <p class="reveal">Because celebrating two souls becoming one deserves all your love, laughter and blessings.</p><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+  </section>
+
+  <section id="families" style="background-image: url('https://raw.githubusercontent.com/SaarthakGotHisNoor/invite/refs/heads/main/5th.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+    <p class="eyebrow reveal">WITH LOVE</p>
+    <!-- <h2 class="section-title reveal"></h2> -->
+    <div class="families-grid">
+      <div class="family reveal">
+        <h4>Kaul Family</h4>
+        <p>All Relatives & Friends</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- <section id="venue" style= "background-image: url(https://raw.githubusercontent.com/SaarthakGotHisNoor/invite/refs/heads/main/1.png);     background-size: cover;
+    background-position: center;">
+    <p class="eyebrow reveal">VENUE</p>
+    <h2 class="section-title reveal">Where We Celebrate</h2>
+    <h3 class="reveal">The Westin Sohna Resort &amp; Spa</h3>
+    <p class="reveal">Gurugram, Haryana</p>
+    <a class="btn reveal" href="https://maps.app.goo.gl/32N5XNZPBFfEiJiWA" target="_blank" rel="noopener">Get Directions</a>
+  </section> -->
+
+  <footer>
+    <div class="script">Shivangi &amp; Pulkit</div>
+    <p style="margin-top:10px;">2nd December 2026</p>
+    <p class="hashtag">#PulkitGotHisShivangi</p>
+    <p class="credit">-Made with <span style="color: red;">&hearts;</span> by Shivangi</p>
+  </footer>
+</main>
+
+<button id="music-toggle" aria-label="Toggle background music">♪</button>
+<audio id="bg-audio" loop src="music.mp3"></audio>
+
+<script>
+  
+  // floating petals
+  // const petalEmojis = ['🌸','🌿','🌼','🪷','❀'];
+  // const petalsContainer = document.getElementById('petals');
+  // for(let i=0;i<24;i++){
+  //   const el = document.createElement('span');
+  //   el.className = 'petal';
+  //   el.textContent = petalEmojis[Math.floor(Math.random()*petalEmojis.length)];
+  //   el.style.left = Math.random()*100 + 'vw';
+  //   el.style.fontSize = (14 + Math.random()*16) + 'px';
+  //   el.style.animationDuration = (12 + Math.random()*14) + 's';
+  //   el.style.animationDelay = (Math.random()*10) + 's';
+  //   petalsContainer.appendChild(el);
+  // }
+
+  // envelope open
+  const envelope = document.getElementById('envelope');
+  const cover = document.getElementById('cover');
+  const audio = document.getElementById('bg-audio');
+    let playing = false;
+
+
+  envelope.addEventListener('click', () => {
+    if(envelope.classList.contains('open')) return;
+    envelope.classList.add('open');
+
+    if(!playing){
+      audio.play().catch(() => {});
+      playing = true;
+    }
+
+    setTimeout(() => {
+      cover.classList.add('hidden');
+      document.body.classList.remove('locked');
+    }, 1500);
+  });
+
+  // scroll reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // countdown timer
+  const weddingDate = new Date('2026-12-02T11:00:00');
+  function updateTimer(){
+    const diff = weddingDate.getTime() - Date.now();
+    if(diff <= 0){
+      ['t-days','t-hours','t-mins','t-secs'].forEach(id => document.getElementById(id).textContent = '00');
+      return;
+    }
+    const days = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    const mins = Math.floor((diff % 3600000) / 60000);
+    const secs = Math.floor((diff % 60000) / 1000);
+    document.getElementById('t-days').textContent = String(days).padStart(2,'0');
+    document.getElementById('t-hours').textContent = String(hours).padStart(2,'0');
+    document.getElementById('t-mins').textContent = String(mins).padStart(2,'0');
+    document.getElementById('t-secs').textContent = String(secs).padStart(2,'0');
+  }
+  updateTimer();
+  setInterval(updateTimer, 1000);
+
+  // scratch to reveal
+  const canvas = document.getElementById('scratchCanvas');
+  const ctx = canvas.getContext('2d');
+  function sizeCanvas(){
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+    ctx.fillStyle = '#d98ba0';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.globalCompositeOperation = 'destination-out';
+  }
+  sizeCanvas();
+  window.addEventListener('resize', sizeCanvas);
+
+  let scratching = false;
+  let revealed = false;
+
+  function scratchAt(x,y){
+    ctx.beginPath();
+    ctx.arc(x,y,26,0,Math.PI*2);
+    ctx.fill();
+  }
+  function getPos(evt){
+    const rect = canvas.getBoundingClientRect();
+    const point = evt.touches ? evt.touches[0] : evt;
+    return { x: point.clientX - rect.left, y: point.clientY - rect.top };
+  }
+  function checkRevealPercent(){
+    if(revealed) return;
+    const data = ctx.getImageData(0,0,canvas.width,canvas.height).data;
+    let cleared = 0;
+    for(let i=3;i<data.length;i+=4*20){ if(data[i] === 0) cleared++; }
+    const total = data.length / (4*20);
+    if(cleared/total > 0.20){
+      revealed = true;
+      canvas.classList.add('done');
+      document.querySelector('.scratch-hint').classList.add('done');
+      document.getElementById('timerSection').classList.add('visible');
+    }
+  }
+  function startScratch(evt){ scratching = true; const p = getPos(evt); scratchAt(p.x,p.y); }
+  function moveScratch(evt){ if(!scratching) return; evt.preventDefault(); const p = getPos(evt); scratchAt(p.x,p.y); checkRevealPercent(); }
+  function endScratch(){ scratching = false; checkRevealPercent(); }
+
+  canvas.addEventListener('mousedown', startScratch);
+  canvas.addEventListener('mousemove', moveScratch);
+  window.addEventListener('mouseup', endScratch);
+  canvas.addEventListener('touchstart', startScratch, {passive:true});
+  canvas.addEventListener('touchmove', moveScratch, {passive:false});
+  canvas.addEventListener('touchend', endScratch);
+
+  // music toggle
+  const musicBtn = document.getElementById('music-toggle');
+  // const audio = document.getElementById('bg-audio');
+  musicBtn.addEventListener('click', () => {
+    if(!playing){
+      audio.play().catch(()=>{});
+      musicBtn.textContent = '❚❚';
+    } else {
+      audio.pause();
+      musicBtn.textContent = '♪';
+    }
+    playing = !playing;
+  });
+</script>
+</body>
+</html>
