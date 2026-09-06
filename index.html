@@ -49,6 +49,7 @@
   #cover{
     position:fixed; inset:0; z-index:20;
     background:radial-gradient(ellipse at center, var(--blush) 0%, var(--blush-deep) 100%);
+    min-height:100svh; padding:24px;
     display:flex; align-items:center; justify-content:center; flex-direction:column; gap:28px;
     transition:opacity 1s ease, visibility 1s ease;
   }
@@ -58,7 +59,7 @@
     perspective:1400px;
   }
   .envelope{
-    position:relative; width:260px; height:180px; cursor:pointer;
+    position:relative; width:min(260px,78vw); aspect-ratio:260 / 180; cursor:pointer;
     filter:drop-shadow(0 18px 30px rgba(140,60,80,.28));
   }
   .env-body{
@@ -93,8 +94,8 @@
     to{ transform:translateY(-30px) scale(.85); opacity:0; }
   }
 
-  .cover-text{ text-align:center; color:var(--rose-deep); }
-  .cover-text h1{ font-size:2.4rem; font-weight:400; letter-spacing:1px; }
+  .cover-text{ text-align:center; color:var(--rose-deep); max-width:100%; }
+  .cover-text h1{ font-size:clamp(2.2rem, 8vw, 3rem); font-weight:400; letter-spacing:1px; }
   .cover-text p{ margin-top:10px; font-size:1.05rem; letter-spacing:.5px; opacity:.75; }
 
   /* ---------- main content ---------- */
@@ -111,17 +112,29 @@
   /* invocation */
   #invocation{
     background:var(--blush);
-    background-image:url('Slide.jpg');
-    background-size:cover;
+    background-image:url('background.png');
+    background-size:100% 100%;
     background-position:center;
     background-repeat:no-repeat;
+    min-height:100svh;
+    padding:clamp(48px, 7vw, 88px) 20px;
   }
-  .blessing{ max-width:640px; font-size:1.20rem; line-height:1.9; color:var(--ink); }
-  .parents{ font-size:1.3rem; margin:14px 0; color:var(--rose-deep); font-weight:600; }
-  .names{ margin:30px 0; }
-  .names .name{ font-size:5rem; color:var(--rose); line-height:1; }
-  .names .with{ font-size:1.4rem; color:var(--ink); margin:6px 0; }
-  .lineage{ font-size:1.05rem; color:var(--ink); opacity:.8; max-width:520px; }
+  #invocation::before{
+    content:"";
+    position:absolute; inset:0;
+    background:rgba(253,238,241,.42);
+    pointer-events:none;
+  }
+  #invocation > *{
+    position:relative;
+    z-index:1;
+  }
+  .blessing{ max-width:640px; font-size:clamp(.92rem, 2.2vw, 1.20rem); line-height:1.55; color:var(--ink); }
+  .parents{ font-size:clamp(1rem, 2.5vw, 1.3rem); margin:10px 0; color:var(--rose-deep); font-weight:600; }
+  .names{ margin:18px 0; }
+  .names .name{ font-size:clamp(3.2rem, 10vw, 5rem); color:var(--rose); line-height:.95; }
+  .names .with{ font-size:clamp(1.05rem, 2.8vw, 1.4rem); color:var(--ink); margin:4px 0; }
+  .lineage{ font-size:clamp(.85rem, 2vw, 1.05rem); color:var(--ink); opacity:.8; max-width:520px; }
 
   /* countdown / scratch */
   #countdown{ background:var(--cream); }
@@ -245,11 +258,12 @@
     .event-card.engagement *{ position:relative; z-index:1; }
   .event-card.cocktail *{ position:relative; z-index:1; }
   .event-card.haldi *{ position:relative; z-index:1; }
-  .event-card h3{ font-size:1.5rem; color:var(--rose); margin:8px 0 6px; font-weight:600; }
-  .event-card .tagline{ font-size:.98rem; opacity:.75; margin-bottom:18px; min-height:44px; }
-  .event-meta{ display:flex; justify-content:space-around; border-top:1px solid rgba(181,56,77,.15); padding-top:16px; }
-  .event-meta div{ font-size:.85rem; }
-  .event-meta .k{ letter-spacing:2px; color:var(--gold); font-weight:600; display:block; margin-bottom:4px; font-size:.7rem;}
+  .event-card h3{ font-size:clamp(1.5rem, 2.5vw, 1.8rem); color:var(--rose); margin:8px 0 6px; font-weight:600; }
+  .event-card .tagline{ font-size:clamp(1rem, 1.8vw, 1.12rem); opacity:.75; margin-bottom:18px; min-height:50px; }
+  .event-meta{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,.8fr) minmax(0,1.4fr); gap:12px; align-items:start; border-top:1px solid rgba(181,56,77,.15); padding-top:16px; }
+  .event-meta div{ min-width:0; font-size:clamp(.88rem, 1.5vw, 1rem); line-height:1.35; }
+  .event-meta .k{ letter-spacing:2px; color:var(--gold); font-weight:600; display:block; margin-bottom:4px; font-size:clamp(.72rem, 1.2vw, .8rem);}
+  .event-meta a.k{ letter-spacing:0; color:inherit; font-weight:400; font-size:inherit; margin:0; }
 
   /* message */
   #message{ background:var(--cream); }
@@ -295,6 +309,10 @@
     .names .name{ font-size:3.4rem; }
     .timer .num{ width:58px; height:58px; font-size:1.7rem; }
     .timer{ gap:10px; }
+    .event-meta{ grid-template-columns:minmax(0,1fr) minmax(0,.75fr) minmax(0,1.35fr); gap:8px; }
+    .event-meta div{ font-size:.84rem; }
+    .event-meta .k{ font-size:.7rem; }
+    .event-meta a.k{ font-size:inherit; }
   }
   
 </style>
@@ -319,17 +337,18 @@
 </div>
 
 <main>
-  <section id="invocation" style="background-image: url('Slide_fin.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+  <section id="invocation" style="background-image: url('background.png'); background-size: 100% 100%; background-position: center; background-repeat: no-repeat;">
+    <p class="blessing reveal">With the blessings of Almighty God and heavenly Blessings of</p>
     <p class="blessing reveal">Late Smt. Radhika Rani Kaul & Late Shri Rugh Nath Kaul</p>
     <p class="blessing reveal">Late Smt. Shyama Rani Bhan & Late Shri Dina Nath Bhan</p>
     <p class="blessing reveal">request the honour of your presence at the wedding ceremony of his beloved granddaughter</p>
 
     <div class="names">
       <div class="name script reveal">Shivangi</div>
-      <p class="lineage reveal">Mrs. Sunita Kaul & Mr. Kuldeep Kumar Kaul</p>
+      <p class="lineage reveal">D/O Mrs. Sunita Kaul & Mr. Kuldeep Kumar Kaul</p>
       <div class="with script reveal">with</div>
       <div class="name script reveal">Pulkit</div>
-    <p class="lineage reveal">Mrs. Reeta Bakaya & Ramesh Bakaya</p>
+    <p class="lineage reveal">S/O Mrs. Reeta Bakaya & Ramesh Bakaya</p>
 
     </div>
   </section>
@@ -360,7 +379,7 @@
       <div class="event-card reveal cocktail" >
         <div class="divider"></div>
         <h3>Masmuchrum Saath Manz</h3>
-        <p class="tagline">An evening of henna, music and dance</p>
+        <p class="tagline">The untying of braids, as tradition ushers in a new beginning</p>
         <div class="event-meta">
           <div><span class="k">DATE</span>SUN · Nov 29, 2026</div>
           <div><span class="k">TIME</span>11:00 AM</div>
@@ -371,7 +390,7 @@
       <div class="event-card reveal engagement">
         <div class="divider"></div>
         <h3>Mehandiraat</h3>
-        <p class="tagline">Turning golden with their forever</p>
+        <p class="tagline">An evening of mehndi, music, and Kashmiri traditions</p>
         <div class="event-meta">
           <div><span class="k">DATE</span>SUN · Nov 29, 2026</div>
           <div><span class="k">TIME</span>07:00 PM</div>
@@ -391,7 +410,7 @@
       <div class="event-card reveal haldi">
         <div class="divider"></div>
         <h3>Devgon</h3>
-        <p class="tagline">The sacred seven vows around the holy fire</p>
+        <p class="tagline">A sacred ritual of blessings before the wedding vows</p>
         <div class="event-meta">
           <div><span class="k">DATE</span>MON · Nov 30, 2026</div>
           <div><span class="k">TIME</span>07:00 PM</div>
@@ -401,11 +420,11 @@
       <div class="event-card reveal wedding">
         <div class="divider"></div>
         <h3>Wedding Ceremony</h3>
-        <p class="tagline">An elegant evening to celebrate their union</p>
+        <p class="tagline">The sacred seven vows around the holy fire</p>
         <div class="event-meta">
           <div><span class="k">DATE</span>WED · Dec 2, 2026</div>
           <div><span class="k">TIME</span>10:00 AM</div>
-          <div><span class="k">VENUE 📍</span><a class="k" href="https://www.google.com/maps/search/?api=1&query=The%20Kangra%20Fort%20Bantalab%20Road%2C%20Barnai%2C%20Saraswati%20Vihar%2C%20Jammu%2C%20Jammu%20and%20Kashmir%20181205" target="_blank">Kangra-Legacy, The Kangra Fort</a></div>
+          <div><span class="k">VENUE 📍</span><a class="k" href="https://www.google.com/maps/dir//Vedas+Premium+Luxury+Banquet,+Toph+Sherkhanian,+Jammu,+Jammu+and+Kashmir+181121/@28.6130176,77.0998272,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x391e844e77a3ae89:0xcbe4e381fdf8e5ec!2m2!1d74.8334813!2d32.7444632?entry=ttu&g_ep=EgoyMDI2MDkwMi4wIKXMDSoASAFQAw%3D%3D" target="_blank">Vedas, Aknoor Road</a></div>
         </div>
       </div>
     </div>
