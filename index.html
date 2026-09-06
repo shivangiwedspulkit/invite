@@ -95,8 +95,8 @@
   }
 
   .cover-text{ text-align:center; color:var(--rose-deep); max-width:100%; }
-  .cover-text h1{ font-size:clamp(2.2rem, 8vw, 3rem); font-weight:400; letter-spacing:1px; }
-  .cover-text p{ margin-top:10px; font-size:1.05rem; letter-spacing:.5px; opacity:.75; }
+  .cover-text h1{ font-size:clamp(2.8rem, 10vw, 4rem); font-weight:400; letter-spacing:1px; }
+  .cover-text p{ margin-top:10px; font-size:clamp(1.1rem, 3vw, 1.3rem); letter-spacing:.5px; opacity:.75; }
 
   /* ---------- main content ---------- */
   main{ position:relative; z-index:1; }
@@ -129,12 +129,12 @@
     position:relative;
     z-index:1;
   }
-  .blessing{ max-width:640px; font-size:clamp(.92rem, 2.2vw, 1.20rem); line-height:1.55; color:var(--ink); }
-  .parents{ font-size:clamp(1rem, 2.5vw, 1.3rem); margin:10px 0; color:var(--rose-deep); font-weight:600; }
+  .blessing{ max-width:640px; font-size:clamp(1rem, 2.5vw, 1.35rem); line-height:1.55; color:var(--ink); }
+  .parents{ font-size:clamp(1.05rem, 2.7vw, 1.4rem); margin:10px 0; color:var(--rose-deep); font-weight:600; }
   .names{ margin:18px 0; }
-  .names .name{ font-size:clamp(3.2rem, 10vw, 5rem); color:var(--rose); line-height:.95; }
-  .names .with{ font-size:clamp(1.05rem, 2.8vw, 1.4rem); color:var(--ink); margin:4px 0; }
-  .lineage{ font-size:clamp(.85rem, 2vw, 1.05rem); color:var(--ink); opacity:.8; max-width:520px; }
+  .names .name{ font-size:clamp(3.6rem, 11vw, 5.8rem); color:var(--rose); line-height:.95; }
+  .names .with{ font-size:clamp(1.1rem, 3vw, 1.5rem); color:var(--ink); margin:4px 0; }
+  .lineage{ font-size:clamp(.95rem, 2.2vw, 1.15rem); color:var(--ink); opacity:.8; max-width:520px; }
 
   /* countdown / scratch */
   #countdown{ background:var(--cream); }
@@ -258,7 +258,34 @@
     .event-card.engagement *{ position:relative; z-index:1; }
   .event-card.cocktail *{ position:relative; z-index:1; }
   .event-card.haldi *{ position:relative; z-index:1; }
+  .event-card.haldi h3,
+  .event-card.wedding h3,
+  .event-card.cocktail h3,
+  .event-card.engagement h3{ color:#fff8e7; text-shadow:0 2px 5px rgba(55,25,20,.55); }
+  .event-card.haldi .tagline,
+  .event-card.wedding .tagline,
+  .event-card.cocktail .tagline,
+  .event-card.engagement .tagline,
+  .event-card.haldi .event-meta div,
+  .event-card.wedding .event-meta div,
+  .event-card.cocktail .event-meta div,
+  .event-card.engagement .event-meta div{ color:#fff8e7; opacity:1; text-shadow:0 1px 4px rgba(55,25,20,.55); }
+  .event-card.haldi .event-meta,
+  .event-card.wedding .event-meta,
+  .event-card.cocktail .event-meta,
+  .event-card.engagement .event-meta{ border-top-color:rgba(255,248,231,.45); }
+  .event-card.haldi .event-meta .k,
+  .event-card.wedding .event-meta .k,
+  .event-card.cocktail .event-meta .k,
+  .event-card.engagement .event-meta .k{ color:#f5d58a; }
   .event-card h3{ font-size:clamp(1.5rem, 2.5vw, 1.8rem); color:var(--rose); margin:8px 0 6px; font-weight:600; }
+  .event-subheading{ font-size:1.08rem; color:var(--rose-deep); margin:-2px 0 8px; font-weight:600; }
+  .event-card.wedding .event-subheading{ color:#f5d58a; text-shadow:0 1px 4px rgba(55,25,20,.55); }
+  .event-city{ display:block; margin-top:3px; font-size:.78rem; color:var(--ink); opacity:.75; }
+  .event-card.haldi .event-city,
+  .event-card.wedding .event-city,
+  .event-card.cocktail .event-city,
+  .event-card.engagement .event-city{ color:#fff8e7; opacity:.9; text-shadow:0 1px 4px rgba(55,25,20,.55); }
   .event-card .tagline{ font-size:clamp(1rem, 1.8vw, 1.12rem); opacity:.75; margin-bottom:18px; min-height:50px; }
   .event-meta{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,.8fr) minmax(0,1.4fr); gap:12px; align-items:start; border-top:1px solid rgba(181,56,77,.15); padding-top:16px; }
   .event-meta div{ min-width:0; font-size:clamp(.88rem, 1.5vw, 1rem); line-height:1.35; }
@@ -331,7 +358,7 @@
     </div>
   </div>
   <div class="cover-text">
-    <h1 class="script" style="font-size:3rem;">You're Invited</h1>
+    <h1 class="script">You're Invited</h1>
     <p>Tap the envelope to open your invitation</p>
   </div>
 </div>
@@ -383,18 +410,18 @@
         <div class="event-meta">
           <div><span class="k">DATE</span>SUN · Nov 29, 2026</div>
           <div><span class="k">TIME</span>11:00 AM</div>
-          <div><span class="k">VENUE 📍</span><a class="k" href="https://www.google.com/maps/search/?api=1&query=The%20Kangra%20Fort%20Bantalab%20Road%2C%20Barnai%2C%20Saraswati%20Vihar%2C%20Jammu%2C%20Jammu%20and%20Kashmir%20181205" target="_blank">Haveli, The Kangra Fort</a></div>
+          <div><span class="k">VENUE 📍</span><a class="k" href="https://www.google.com/maps/search/?api=1&query=The%20Kangra%20Fort%20Bantalab%20Road%2C%20Barnai%2C%20Saraswati%20Vihar%2C%20Jammu%2C%20Jammu%20and%20Kashmir%20181205" target="_blank">Haveli, The Kangra Fort, Jammu</a></div>
           <!-- <div><span class="k">Theme</span>Garden Lawn</div> -->
         </div>
       </div>
       <div class="event-card reveal engagement">
         <div class="divider"></div>
-        <h3>Mehandiraat</h3>
+        <h3>Mehandiraat & Dinner</h3>
         <p class="tagline">An evening of mehndi, music, and Kashmiri traditions</p>
         <div class="event-meta">
           <div><span class="k">DATE</span>SUN · Nov 29, 2026</div>
           <div><span class="k">TIME</span>07:00 PM</div>
-          <div><span class="k">VENUE 📍</span><a class="k" href="https://www.google.com/maps/search/?api=1&query=The%20Kangra%20Fort%20Bantalab%20Road%2C%20Barnai%2C%20Saraswati%20Vihar%2C%20Jammu%2C%20Jammu%20and%20Kashmir%20181205" target="_blank">Diwan-e-Khaas, The Kangra Fort</a></div>
+          <div><span class="k">VENUE 📍</span><a class="k" href="https://www.google.com/maps/search/?api=1&query=The%20Kangra%20Fort%20Bantalab%20Road%2C%20Barnai%2C%20Saraswati%20Vihar%2C%20Jammu%2C%20Jammu%20and%20Kashmir%20181205" target="_blank">Diwan-e-Khaas, The Kangra Fort, Jammu</a></div>
         </div>
       </div>
       <!-- <div class="event-card reveal haldi">
@@ -413,18 +440,18 @@
         <p class="tagline">A sacred ritual of blessings before the wedding vows</p>
         <div class="event-meta">
           <div><span class="k">DATE</span>MON · Nov 30, 2026</div>
-          <div><span class="k">TIME</span>07:00 PM</div>
-          <div><span class="k">VENUE 📍</span><a class="k" href="https://www.google.com/maps/search/?api=1&query=The%20Kangra%20Fort%20Bantalab%20Road%2C%20Barnai%2C%20Saraswati%20Vihar%2C%20Jammu%2C%20Jammu%20and%20Kashmir%20181205" target="_blank">Kangra-Legacy, The Kangra Fort</a></div>
+          <div><span class="k">TIME</span>11:00 AM</div>
+          <div><span class="k">VENUE 📍</span><a class="k" href="https://www.google.com/maps/search/?api=1&query=The%20Kangra%20Fort%20Bantalab%20Road%2C%20Barnai%2C%20Saraswati%20Vihar%2C%20Jammu%2C%20Jammu%20and%20Kashmir%20181205" target="_blank">Kangra-Legacy, The Kangra Fort, Jammu</a></div>
         </div>
       </div>
       <div class="event-card reveal wedding">
-        <div class="divider"></div>
         <h3>Wedding Ceremony</h3>
+        <p class="event-subheading">Reception of Barat</p>
         <p class="tagline">The sacred seven vows around the holy fire</p>
         <div class="event-meta">
           <div><span class="k">DATE</span>WED · Dec 2, 2026</div>
           <div><span class="k">TIME</span>10:00 AM</div>
-          <div><span class="k">VENUE 📍</span><a class="k" href="https://www.google.com/maps/dir//Vedas+Premium+Luxury+Banquet,+Toph+Sherkhanian,+Jammu,+Jammu+and+Kashmir+181121/@28.6130176,77.0998272,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x391e844e77a3ae89:0xcbe4e381fdf8e5ec!2m2!1d74.8334813!2d32.7444632?entry=ttu&g_ep=EgoyMDI2MDkwMi4wIKXMDSoASAFQAw%3D%3D" target="_blank">Vedas, Aknoor Road</a></div>
+          <div><span class="k">VENUE 📍</span><a class="k" href="https://www.google.com/maps/dir//Vedas+Premium+Luxury+Banquet,+Toph+Sherkhanian,+Jammu,+Jammu+and+Kashmir+181121/@28.6130176,77.0998272,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x391e844e77a3ae89:0xcbe4e381fdf8e5ec!2m2!1d74.8334813!2d32.7444632?entry=ttu&g_ep=EgoyMDI2MDkwMi4wIKXMDSoASAFQAw%3D%3D" target="_blank">Vedas, Aknoor Road, Jammu</a></div>
         </div>
       </div>
     </div>
